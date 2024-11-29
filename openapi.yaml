@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: 测试接口
+  description: ''
+  version: 1.0.0
+tags: []
+paths:
+  /oauth/authorize:
+    get:
+      summary: authorize
+      deprecated: false
+      description: ''
+      tags: []
+      parameters:
+        - name: client_id
+          in: query
+          description: ''
+          required: false
+          example: test
+          schema:
+            type: string
+        - name: response_type
+          in: query
+          description: ''
+          required: false
+          example: code
+          schema:
+            type: string
+        - name: scope
+          in: query
+          description: ''
+          required: false
+          example: all
+          schema:
+            type: string
+        - name: redirect_uri
+          in: query
+          description: ''
+          required: false
+          example: http://www.baidu.com
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+      security: []
+  /oauth/token:
+    post:
+      summary: token
+      deprecated: false
+      description: ''
+      tags: []
+      parameters: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                code:
+                  example: to3mr2
+                  type: string
+                client_id:
+                  example: 'test '
+                  type: string
+                client_secret:
+                  example: '123456'
+                  type: string
+                redirect_uri:
+                  example: http://www.baidu.com
+                  type: string
+                grant_type:
+                  example: authorization_code
+                  type: string
+                scope:
+                  example: all
+                  type: string
+      responses:
+        '405':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+                required:
+                  - error
+                  - error_description
+              examples:
+                '1':
+                  summary: 成功示例
+                  value:
+                    access_token: b3039a34-355e-4269-8d90-f9db1f9c4798
+                    token_type: bearer
+                    refresh_token: a126bb39-b412-4444-8dd2-4981f4d04f8b
+                    expires_in: 7003
+                    scope: all
+          headers: {}
+      security:
+        - basic: []
+  /test:
+    get:
+      summary: test
+      deprecated: false
+      description: ''
+      tags: []
+      parameters:
+        - name: Authorization
+          in: header
+          description: ''
+          required: false
+          example: Bearer ef95fdf7-48aa-43c2-8532-4ed6bf81a5f4
+          schema:
+            type: string
+      responses:
+        '401':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+                required:
+                  - error
+                  - error_description
+              examples:
+                '1':
+                  summary: 成功示例
+                  value: hello world
+          headers: {}
+      security: []
+components:
+  schemas: {}
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+servers:
+  - url: localhost:8080
+    description: 本地 8080
